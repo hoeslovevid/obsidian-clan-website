@@ -1,0 +1,7 @@
+{
+  "name": "obsidian-oath-legion",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/generate-admin-config.js"
+  }
+}
