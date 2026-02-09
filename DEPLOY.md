@@ -55,6 +55,22 @@ Whenever you push to `main` (or the branch you connected), Netlify will run the 
 
 ---
 
+## Troubleshooting: Admin password doesn't work
+
+1. **Set the env var in Netlify**  
+   Site configuration → Environment variables. Add **Key:** `ADMIN_EDIT_PASSWORD` (exact spelling). **Value:** your password (no extra spaces).
+
+2. **Redeploy**  
+   Changing the variable doesn’t affect an already-built site. Go to **Deploys** → **Trigger deploy** → **Deploy site**.
+
+3. **Check the build log**  
+   Deploys → latest deploy → Build log. You should see `Wrote data/admin-config.js (password length: X)`. If you see `ERROR: ADMIN_EDIT_PASSWORD is not set`, add the variable and trigger a new deploy.
+
+4. **Cache**  
+   Try in an incognito window or hard refresh (Ctrl+F5).
+
+---
+
 **Local development:** To run the build locally so “Edit admins” works, create `data/admin-config.js` yourself (see `data/admin-config.example.js`) or run:
 
 ```bash
