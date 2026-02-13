@@ -1425,9 +1425,11 @@ main {
   color: white;
 }
 
-.discord-icon {
+.discord-icon,
+.bot-icon {
   width: 24px;
   height: 24px;
+  flex-shrink: 0;
 }
 
 .discord-hint {
