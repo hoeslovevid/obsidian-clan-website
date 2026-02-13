@@ -460,18 +460,6 @@ a.btn {
   100% { transform: translateX(-120px); }
 }
 
-.hero-grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(0, 212, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0, 212, 255, 0.04) 1px, transparent 1px),
-    linear-gradient(rgba(201, 162, 39, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(201, 162, 39, 0.02) 1px, transparent 1px);
-  background-size: 60px 60px, 60px 60px, 120px 120px, 120px 120px;
-  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent);
-}
-
 .hero-content {
   position: relative;
   z-index: 1;
