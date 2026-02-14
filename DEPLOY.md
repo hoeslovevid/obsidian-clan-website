@@ -59,16 +59,19 @@ After the workflow finishes, your site will be at:
 
 ## Troubleshooting: Admin password doesn’t work
 
-1. **Add the secret**  
+1. **Use GitHub Actions as the Pages source**  
+   If you see “Admin access is not configured” on the live site, **Settings** → **Pages** → **Build and deployment** → **Source** must be **GitHub Actions**, not “Deploy from a branch”. Branch deploys serve the repo as-is, and `admin-config.js` is gitignored so it never appears. Only the workflow build produces that file and deploys it.
+
+2. **Add the secret**  
    **Settings** → **Secrets and variables** → **Actions**. Add **Name:** `ADMIN_EDIT_PASSWORD` (exact spelling). **Value:** your password (no extra spaces).
 
-2. **Redeploy**  
+3. **Redeploy**  
    **Actions** → **Deploy to GitHub Pages** → **Run workflow**. The password is only injected at build time.
 
-3. **Check the workflow log**  
+4. **Check the workflow log**  
    Open the latest run → **build-and-deploy** job. The build step should log: `Wrote data/admin-config.js (password length: X)`. If you see `ERROR: ADMIN_EDIT_PASSWORD is not set`, add the secret and run the workflow again.
 
-4. **Cache**  
+5. **Cache**  
    Try an incognito window or hard refresh (Ctrl+F5).
 
 ---

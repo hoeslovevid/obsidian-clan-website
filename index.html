@@ -253,7 +253,10 @@
   <div class="admin-editor-overlay" id="admin-editor" aria-hidden="true">
     <div class="admin-editor-panel">
       <div class="admin-editor-gate" id="admin-editor-gate">
-        <h2>Admin access</h2>
+        <div class="admin-editor-gate-header">
+          <h2>Admin access</h2>
+          <a href="#" class="admin-editor-close" id="admin-editor-gate-close" aria-label="Close">×</a>
+        </div>
         <p class="admin-editor-gate-hint">Enter the admin password to edit admins.</p>
         <form id="admin-editor-gate-form" class="admin-editor-gate-form">
           <input type="password" id="admin-editor-password" class="admin-editor-password-input" placeholder="Password" autocomplete="current-password" aria-label="Admin password">
@@ -266,7 +269,7 @@
           <h2>Edit admins</h2>
           <div class="admin-editor-header-actions">
             <button type="button" class="btn btn-ghost admin-editor-lock" id="admin-editor-lock">Lock</button>
-            <a href="#" class="admin-editor-close" id="admin-editor-close">Close</a>
+            <a href="#" class="admin-editor-close" id="admin-editor-close" aria-label="Close">×</a>
           </div>
         </div>
       <p class="admin-editor-hint">Changes are saved in your browser. Use “Export admins.js” to download a file for deployment.</p>

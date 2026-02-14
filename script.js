@@ -370,8 +370,13 @@
     });
   }
 
+  function closeEditor() {
+    window.location.hash = '';
+  }
   var closeBtn = document.getElementById('admin-editor-close');
-  if (closeBtn) closeBtn.addEventListener('click', function (e) { e.preventDefault(); window.location.hash = ''; });
+  if (closeBtn) closeBtn.addEventListener('click', function (e) { e.preventDefault(); closeEditor(); });
+  var gateCloseBtn = document.getElementById('admin-editor-gate-close');
+  if (gateCloseBtn) gateCloseBtn.addEventListener('click', function (e) { e.preventDefault(); closeEditor(); });
 
   var addBtn = document.getElementById('admin-editor-add');
   if (addBtn) addBtn.addEventListener('click', onEditorAdd);
