@@ -1,9 +1,0 @@
-# Netlify config for The Obsidian Oath Legion site
-[build]
-  command = "npm run build"
-  publish = "."
-  functions = "netlify/functions"
-
-# Ensure function runs on Node 16+ (https module works on all)
-[functions]
-  node_bundler = "esbuild"

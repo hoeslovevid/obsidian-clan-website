@@ -1,20 +1,18 @@
-# Deploy with GitHub + Netlify
+# Deploy with GitHub Pages
 
-This guide sets up automatic deploys: push to GitHub → Netlify builds and deploys.
+This guide sets up automatic deploys: push to `main` → GitHub Actions builds (with your admin password from a secret) and deploys to GitHub Pages.
 
-## 1. Create a GitHub repo
+## 1. Create a GitHub repo (if needed)
 
 1. Go to [github.com/new](https://github.com/new).
 2. Name the repo (e.g. `obsidian-oath-legion`).
-3. Leave it empty (no README, .gitignore, or license).
-4. Create the repo.
+3. Create the repo (with or without a README).
 
 ## 2. Push this project to GitHub
 
-In a terminal, from this project folder:
+From this project folder:
 
 ```bash
-git init
 git add .
 git commit -m "Initial commit: Obsidian Oath Legion site"
 git branch -M main
@@ -24,58 +22,77 @@ git push -u origin main
 
 Replace `YOUR_USERNAME` and `YOUR_REPO_NAME` with your GitHub username and repo name.
 
-## 3. Connect the repo to Netlify
+## 3. Add the admin password as a secret
 
-1. Log in at [app.netlify.com](https://app.netlify.com).
-2. Click **Add new site** → **Import an existing project**.
-3. Choose **GitHub** and authorize Netlify if asked.
-4. Select the repo you just pushed.
-5. Netlify will prefill from `netlify.toml`:
-   - **Build command:** `npm run build`
-   - **Publish directory:** `.`
-   - **Functions directory:** `netlify/functions`
-6. Before deploying, add the admin password:
-   - Open **Site settings** → **Environment variables** → **Add a variable** (or **Add env vars** in the deploy step).
-   - Key: `ADMIN_EDIT_PASSWORD`
-   - Value: the password you want for the “Edit admins” panel.
-   - Save.
-7. Click **Deploy site**.
+The “Edit admins” panel is protected by a password. The site is built in GitHub Actions using that password; it is **never** stored in the repo.
 
-The build will run `npm run build`, which generates `data/admin-config.js` from `ADMIN_EDIT_PASSWORD`, so the password is never stored in GitHub.
+1. In your repo, go to **Settings** → **Secrets and variables** → **Actions**.
+2. Click **New repository secret**.
+3. **Name:** `ADMIN_EDIT_PASSWORD`
+4. **Value:** the password you want for the “Edit admins” panel.
+5. Click **Add secret**.
 
-## 4. After the first deploy
+## 4. Enable GitHub Pages (Actions)
 
-- Your site will be at a URL like `https://something.netlify.app`.
-- To use your own domain: **Domain settings** → **Add custom domain**.
-- **Edit admins:** open the site, click “Edit admins” in the footer, and sign in with the password you set in Netlify.
+1. In the repo, go to **Settings** → **Pages**.
+2. Under **Build and deployment**, set **Source** to **GitHub Actions**.
+3. Save (no need to pick a branch when using Actions).
 
-## 5. Automatic deploys
+## 5. Run the deploy
 
-Whenever you push to `main` (or the branch you connected), Netlify will run the build and deploy the new version. No extra steps.
+- **Automatic:** Every push to `main` runs the workflow: it builds (generating `data/admin-config.js` from `ADMIN_EDIT_PASSWORD`) and deploys to GitHub Pages.
+- **Manual:** **Actions** → **Deploy to GitHub Pages** → **Run workflow**.
+
+After the workflow finishes, your site will be at:
+
+`https://YOUR_USERNAME.github.io/YOUR_REPO_NAME/`
+
+(Or your custom domain if you set one under **Settings** → **Pages**.)
+
+## 6. Edit admins
+
+- Open the site, click **“Edit admins”** in the footer (or go to `#edit-admins`).
+- Enter the password you set in **ADMIN_EDIT_PASSWORD**.
+- Edit the list, then use **“Export admins.js”** to download `admins.js`. Commit and push the new `data/admins.js` to update the live list.
 
 ---
 
-## Troubleshooting: Admin password doesn't work
+## Troubleshooting: Admin password doesn’t work
 
-1. **Set the env var in Netlify**  
-   Site configuration → Environment variables. Add **Key:** `ADMIN_EDIT_PASSWORD` (exact spelling). **Value:** your password (no extra spaces).
+1. **Add the secret**  
+   **Settings** → **Secrets and variables** → **Actions**. Add **Name:** `ADMIN_EDIT_PASSWORD` (exact spelling). **Value:** your password (no extra spaces).
 
 2. **Redeploy**  
-   Changing the variable doesn’t affect an already-built site. Go to **Deploys** → **Trigger deploy** → **Deploy site**.
+   **Actions** → **Deploy to GitHub Pages** → **Run workflow**. The password is only injected at build time.
 
-3. **Check the build log**  
-   Deploys → latest deploy → Build log. You should see `Wrote data/admin-config.js (password length: X)`. If you see `ERROR: ADMIN_EDIT_PASSWORD is not set`, add the variable and trigger a new deploy.
+3. **Check the workflow log**  
+   Open the latest run → **build-and-deploy** job. The build step should log: `Wrote data/admin-config.js (password length: X)`. If you see `ERROR: ADMIN_EDIT_PASSWORD is not set`, add the secret and run the workflow again.
 
 4. **Cache**  
-   Try in an incognito window or hard refresh (Ctrl+F5).
+   Try an incognito window or hard refresh (Ctrl+F5).
 
 ---
 
-**Local development:** To run the build locally so “Edit admins” works, create `data/admin-config.js` yourself (see `data/admin-config.example.js`) or run:
+## Local development
 
-```bash
+To run the build locally so “Edit admins” works:
+
+**Windows (PowerShell):**
+```powershell
+$env:ADMIN_EDIT_PASSWORD = "yourpassword"
+npm run build
+```
+
+**Windows (CMD):**
+```cmd
 set ADMIN_EDIT_PASSWORD=yourpassword
 npm run build
 ```
 
-On Mac/Linux use `export ADMIN_EDIT_PASSWORD=yourpassword` before `npm run build`.
+**Mac/Linux:**
+```bash
+export ADMIN_EDIT_PASSWORD=yourpassword
+npm run build
+```
+
+Or create `data/admin-config.js` yourself (see `data/admin-config.example.js`). That file is gitignored so your password is not committed.

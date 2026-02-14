@@ -1368,27 +1368,6 @@ main {
   letter-spacing: 0.03em;
 }
 
-.discord-member-count {
-  font-family: var(--font-heading);
-  font-size: 0.95rem;
-  font-weight: 500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 1rem;
-  text-shadow: 0 0 15px var(--gold-glow);
-}
-
-.discord-member-number {
-  font-weight: 700;
-  color: var(--gold-light);
-}
-
-.discord-online-count {
-  font-weight: 500;
-  color: var(--text-muted);
-}
-
 .btn-discord {
   display: inline-flex;
   align-items: center;

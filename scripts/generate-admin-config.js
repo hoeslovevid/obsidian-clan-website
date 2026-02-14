@@ -1,6 +1,6 @@
 /**
  * Generates data/admin-config.js from the ADMIN_EDIT_PASSWORD env var.
- * Used by Netlify build so the password is set in the Netlify UI, not in the repo.
+ * Used by GitHub Actions so the password is set as a repo secret, not in the repo.
  * Run locally (Windows): set ADMIN_EDIT_PASSWORD=yourpass && node scripts/generate-admin-config.js
  * Run locally (Mac/Linux): ADMIN_EDIT_PASSWORD=yourpass node scripts/generate-admin-config.js
  */
@@ -11,8 +11,8 @@ const password = process.env.ADMIN_EDIT_PASSWORD;
 if (password === undefined || password === '') {
   console.error('');
   console.error('ERROR: ADMIN_EDIT_PASSWORD is not set.');
-  console.error('  - In Netlify: Site settings → Environment variables → Add ADMIN_EDIT_PASSWORD');
-  console.error('  - Then trigger a new deploy (Deploys → Trigger deploy).');
+  console.error('  - In GitHub: Settings → Secrets and variables → Actions → Add ADMIN_EDIT_PASSWORD');
+  console.error('  - Then run the "Deploy to GitHub Pages" workflow (or push to main).');
   console.error('  - Locally: set ADMIN_EDIT_PASSWORD=yourpass (Windows) or export ADMIN_EDIT_PASSWORD=yourpass (Mac/Linux)');
   console.error('');
   process.exit(1);

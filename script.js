@@ -382,20 +382,6 @@
   var exportBtn = document.getElementById('admin-editor-export');
   if (exportBtn) exportBtn.addEventListener('click', onEditorExport);
 
-  // Discord member count (auto-updates when deployed with Netlify function)
-  const discordCountEl = document.querySelector('.discord-member-number');
-  const discordOnlineEl = document.querySelector('.discord-online-count');
-  if (discordCountEl) {
-    fetch('/.netlify/functions/discord-stats')
-      .then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
-      .then(function (result) {
-        if (result && result.data && typeof result.data.count === 'number') {
-          discordCountEl.textContent = result.data.count.toLocaleString();
-          if (discordOnlineEl && typeof result.data.online === 'number') {
-            discordOnlineEl.textContent = ' (' + result.data.online.toLocaleString() + ' online)';
-          }
-        }
-      })
-      .catch(function () { /* keep placeholder on fail (e.g. not on Netlify) */ });
-  }
+  // Discord member count: static on GitHub Pages (no serverless functions).
+  // Placeholder "—" is shown; replace with a backend if you add one.
 })();
