@@ -25,35 +25,68 @@
     });
   }
 
-  // Header scroll effect
-  const header = document.querySelector('.header');
-  function onScroll() {
-    if (window.scrollY > 50) {
-      header.classList.add('scrolled');
-    } else {
-      header.classList.remove('scrolled');
-    }
-  }
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
-
-  // Mobile nav toggle
-  const navToggle = document.querySelector('.nav-toggle');
+  // Side nav: open/close and backdrop
+  const sideNav = document.getElementById('side-nav');
+  const navToggle = document.getElementById('nav-toggle');
   const navLinks = document.querySelector('.nav-links');
-  if (navToggle && navLinks) {
+  const backdrop = document.getElementById('side-nav-backdrop');
+
+  function setNavOpen(open) {
+    if (sideNav) sideNav.classList.toggle('open', open);
+    if (navToggle) navToggle.classList.toggle('active', open);
+    if (backdrop) backdrop.classList.toggle('visible', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  }
+
+  if (navToggle && sideNav) {
     navToggle.addEventListener('click', function () {
-      navToggle.classList.toggle('active');
-      navLinks.classList.toggle('open');
-      document.body.style.overflow = navLinks.classList.contains('open') ? 'hidden' : '';
+      setNavOpen(!sideNav.classList.contains('open'));
     });
-    navLinks.querySelectorAll('a').forEach(function (link) {
-      link.addEventListener('click', function () {
-        navToggle.classList.remove('active');
-        navLinks.classList.remove('open');
-        document.body.style.overflow = '';
+  }
+  if (backdrop) backdrop.addEventListener('click', function () { setNavOpen(false); });
+  if (navLinks) {
+    navLinks.querySelectorAll('a[href^="#"]').forEach(function (link) {
+      link.addEventListener('click', function (e) {
+        var href = (link.getAttribute('href') || '').slice(1);
+        if (href && scrollContainer) {
+          var el = document.getElementById(href);
+          if (el) {
+            e.preventDefault();
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+        setNavOpen(false);
       });
     });
   }
+
+  // Side nav: highlight active section on scroll (orange = current section)
+  const scrollContainer = document.querySelector('.scroll-container');
+  const sectionIds = ['about', 'rules', 'join', 'admins', 'discord', 'bot'];
+  function updateActiveNav() {
+    if (!navLinks) return;
+    var scrollTop = scrollContainer ? scrollContainer.scrollTop : window.scrollY;
+    var height = scrollContainer ? scrollContainer.clientHeight : window.innerHeight;
+    var y = scrollTop + height * 0.3;
+    var activeId = scrollTop < 100 ? 'about' : '';
+    sectionIds.forEach(function (id) {
+      var el = document.getElementById(id);
+      if (!el) return;
+      var elTop = scrollContainer
+        ? scrollTop + el.getBoundingClientRect().top - scrollContainer.getBoundingClientRect().top
+        : el.offsetTop;
+      if (elTop <= y) activeId = id;
+    });
+    navLinks.querySelectorAll('a[href^="#"]').forEach(function (a) {
+      var href = (a.getAttribute('href') || '').slice(1);
+      if (!href) return;
+      a.classList.toggle('active', href === activeId);
+    });
+  }
+  var scrollTarget = scrollContainer || window;
+  scrollTarget.addEventListener('scroll', updateActiveNav, { passive: true });
+  window.addEventListener('load', updateActiveNav);
+  updateActiveNav();
 
   // Scroll-triggered animations
   const animated = document.querySelectorAll('.animate-on-scroll');

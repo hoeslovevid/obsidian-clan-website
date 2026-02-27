@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#050508">
   <title>The Obsidian Oath Legion | Warframe Clan</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon.ico" type="image/x-icon" sizes="any">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -15,26 +18,27 @@
   <div class="starfield" aria-hidden="true"></div>
   <div class="noise-overlay" aria-hidden="true"></div>
 
-  <header class="header">
-    <nav class="nav">
-      <a href="#" class="logo logo-3d"><span class="logo-shimmer">The Obsidian Oath Legion</span></a>
-      <button class="nav-toggle" aria-label="Toggle menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-      <ul class="nav-links">
+  <div class="side-nav-backdrop" id="side-nav-backdrop" aria-hidden="true"></div>
+  <aside class="side-nav" id="side-nav" aria-label="Main navigation">
+    <nav class="side-nav-links-wrap">
+      <ul class="nav-links" role="list">
         <li><a href="#about">About</a></li>
         <li><a href="#rules">Rules</a></li>
         <li><a href="#join">Join</a></li>
         <li><a href="#admins">Admins</a></li>
-        <li><a href="#bot">Bot</a></li>
         <li><a href="#discord" class="nav-cta">Discord</a></li>
+        <li><a href="#bot">Bot</a></li>
       </ul>
     </nav>
-  </header>
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </aside>
 
-  <main>
+  <div class="scroll-container">
+  <main class="main-content">
     <section class="hero">
       <div class="hero-bg">
         <div class="hero-planet" aria-hidden="true">
@@ -248,6 +252,7 @@
       <p class="footer-edit"><a href="#edit-admins">Edit admins</a></p>
     </div>
   </footer>
+  </div>
 
   <!-- In-page admin editor (shown when URL has #edit-admins) -->
   <div class="admin-editor-overlay" id="admin-editor" aria-hidden="true">
